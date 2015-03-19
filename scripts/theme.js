@@ -41,7 +41,8 @@ $(document).ready(function() {
 		$('#search_form').elk_QuickSearch();
 
 	// Tooltips
-	$('.preview').SiteTooltip({hoverIntent: {sensitivity: 10, interval: 750, timeout: 50}});
+	if ((!is_mobile && !is_touch) || use_click_menu)
+		$('.preview').SiteTooltip({hoverIntent: {sensitivity: 10, interval: 750, timeout: 50}});
 
 	// Find all nested linked images and turn off the border
 	$('a.bbc_link img.bbc_img').parent().css('border', '0');
@@ -103,7 +104,6 @@ $(document).ready(function() {
 				// Remove the div we added to allow the image to overflow expand in
 				$this.unwrap();
 				$this.css({'max-width': '100%'});
-
 			}
 		});
 	});
@@ -140,7 +140,7 @@ var head_pos = $('#wrapper').offset().left,
 				});
 			}
 
-			// Set the parent as active, show the seach form
+			// Set the parent as active, show the search form
 			$this.addClass('active');
 			$this.find('#controls').slideDown(0);
 
