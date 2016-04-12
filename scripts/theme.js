@@ -9,7 +9,7 @@
  * copyright:	2011 Simple Machines (http://www.simplemachines.org)
  * license:		BSD, See included LICENSE.TXT for terms and conditions.
  *
- * @version 1.0.3
+ * @version 1.0.6
  *
  * This file contains javascript associated with the current theme
  */
@@ -55,10 +55,11 @@ $(document).ready(function() {
 	$('.expand_pages').expand_pages();
 
 	// Collapsabile fieldsets, pure candy
-	$('legend').click(function(){
+	$(document).on('click', 'legend', function(){
 		$(this).siblings().slideToggle("fast");
 		$(this).parent().toggleClass("collapsed");
-	}).each(function () {
+	});
+	$(document).on('ready', 'legend', function () {
 		if ($(this).data('collapsed'))
 			$(this).click();
 	});
@@ -84,12 +85,18 @@ $(document).ready(function() {
 			// No saved data, then lets set it to auto
 			if ($.isEmptyObject($this.data()))
 			{
-				$this.data("bbc_img", {width: $this.css('width'), height: $this.css('height')});
+				$this.data("bbc_img", {
+						width: $this.css('width'),
+						height: $this.css('height'),
+						'max-width': $this.css('max-width'),
+						'max-height': $this.css('max-height'),
+				});
 				$this.css({'width': $this.css('width') === 'auto' ? null : 'auto'});
-				$this.css({'height': $this.css('width') === 'auto' ? null : 'auto'});
+				$this.css({'height': $this.css('height') === 'auto' ? null : 'auto'});
 
 				// Overide default css to allow the image to expand fully, add a div to exand in
 				$this.css({'max-width': 'none'});
+				$this.css({'max-height': 'none'});
 				$this.wrap('<div style="overflow: auto"></div>');
 			}
 			else
@@ -97,6 +104,8 @@ $(document).ready(function() {
 				// Was clicked and saved, so set it back
 				$this.css({'width': $this.data("bbc_img").width});
 				$this.css({'height': $this.data("bbc_img").height});
+				$this.css({'max-width': $this.data("bbc_img")['max-width']});
+				$this.css({'max-height': $this.data("bbc_img")['max-height']});
 
 				// Remove the data
 				$this.removeData();
@@ -106,6 +115,12 @@ $(document).ready(function() {
 				$this.css({'max-width': '100%'});
 			}
 		});
+	});
+	$('.hamburger_30').click(function(e) {
+		e.preventDefault();
+		var id = $(this).data('id');
+		$('#' + id).addClass('visible');
+		$(this).addClass('visible');
 	});
 });
 
