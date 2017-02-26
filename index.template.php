@@ -11,7 +11,7 @@
  * copyright:	2011 Simple Machines (http://www.simplemachines.org)
  * license:  	BSD, See included LICENSE.TXT for terms and conditions.
  *
- * @version 1.0.6
+ * @version 1.0.10
  *
  */
 
@@ -202,7 +202,7 @@ function template_html_above()
 	echo '
 </head>
 <body id="', $context['browser_body_id'], '" class="action_', !empty($context['current_action']) ? htmlspecialchars($context['current_action'], ENT_COMPAT, 'UTF-8') : (!empty($context['current_board']) ?
-					'messageindex' : (!empty($context['current_topic']) ? 'display' : 'home')), !empty($context['current_board']) ? ' board_' . htmlspecialchars($context['current_board'], ENT_COMPAT, 'UTF-8') : '', '">';
+	'messageindex' : (!empty($context['current_topic']) ? 'display' : 'home')), !empty($context['current_board']) ? ' board_' . htmlspecialchars($context['current_board'], ENT_COMPAT, 'UTF-8') : '', '">';
 }
 
 /**
@@ -302,7 +302,7 @@ function template_login_bar()
 					</form>
 				</div>
 			</div>
-			<div id="toggle" class="tab">
+			<div id="toggle" class="paneltab">
 				<a id="open" class="open" href="#">Log In | Register</a>
 				<a id="close" style="display: none;" class="close" href="#">Close Panel</a>
 			</div>
@@ -367,7 +367,7 @@ function template_search_bar()
 
 	echo '
 					<input type="submit" name="search;sa=results" value="', $txt['search'], '" class="button_submit', (!empty($modSettings['search_dropdown'])) ? ' with_select' : '', '" />
-					<input type="hidden" name="advanced" value="0" />';
+				<input type="hidden" name="advanced" value="0" />';
 
 	if (!empty($modSettings['search_dropdown']))
 		echo '
@@ -706,7 +706,7 @@ function template_basicicons_legend()
 			' . (!empty($modSettings['pollMode']) ? '<span class="topicicon img_poll"> </span>' . $txt['poll'] : '') . '
 		</p>
 		<p>
-			<span class="topicicon img_locked"> </span>' . $txt['locked_topic'] . '<br />' . ($modSettings['enableStickyTopics'] == '1' ? '
+			<span class="topicicon img_locked"> </span>' . $txt['locked_topic'] . '<br />' . (!empty($modSettings['enableStickyTopics']) ? '
 			<span class="topicicon img_sticky"> </span>' . $txt['sticky_topic'] . '<br />' : '') . '
 		</p>';
 }

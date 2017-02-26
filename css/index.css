@@ -495,14 +495,14 @@ h2 a.collapse {
 }
 
 /* Upshrink image in the general category headers */
-#category_toggle, #category_toggle_more, #upshrink_header {
+#category_toggle, #category_toggle_more, #upshrink_header, .package_toggle {
 	display: block;
 	float: right;
 	padding: 0 16px;
 	overflow: hidden;
 	position: relative;
 }
-#category_toggle span, #category_toggle_more span, #upshrink_header span {
+#category_toggle span, #category_toggle_more span, #upshrink_header span, .package_toggle span {
 	background-repeat: no-repeat;
 	background-image: url(../images/_redblue/expcol.png);
 	position: absolute;
@@ -659,15 +659,15 @@ div.windowbg, div.windowbg2 {
 }
 /* Extra code block styling. */
 .bbc_code {
-	overflow: auto;
-	height: 20em;
 	white-space: nowrap;
 	font-family: "DejaVu Sans Mono", Monaco, Consolas, monospace;
 	resize: vertical;
+	height: auto;
+	max-height: 20em;
 }
 .bbc_code .tab {
 	width: 4ex;
-	white-space:pre;
+	white-space: pre;
 	display: inline-block;
 }
 /* Stop em compounding when elements are nested. */
@@ -819,6 +819,7 @@ a.bbc_link {
     margin: 0;
 	width: 200px;
 	padding: 5px;
+	z-index: 100;
 }
 #controls {
 	padding: 6px 6px 4px 0;
@@ -1253,7 +1254,9 @@ a.bbc_link {
 	line-height: 2em;
 	min-height: 2.1em;
 }
-
+.fa.hamburger_30 {
+	display: none;
+}
 /* The quick buttons. */
 /* ------------------------------------------------------- */
 .quickbuttons {
@@ -2424,22 +2427,30 @@ div.core_posts {
 	padding: 8px 0;
 	font-size: 0.857em;
 }
-.attachments {
-	margin: 20px 0 0 0;
-	clear: both;
-}
-.attachments .attachment {
-	padding: 6px 8px;
+.attachment_block {
 	display: inline-block;
-	min-width: 22%;
-}
-.attachment_thumb {
-	margin: 0 auto;
+	max-width: 99%;
+	min-width: 18em;
+	margin: 0 .25em 1em .25em;
+	vertical-align: bottom;
 	text-align: center;
+	overflow: hidden;
 }
-/* @todo - Look at deprecating this hr. */
-.attachments hr {
+.attachment_image {
+	margin: 2em 0 0 0;
+}
+.attachment_name, .attachment_details {
+	display: block;
+}
+/* Just eye candy. */
+.attachment_name {
+	margin: .5em 0 0 0;
+}
+/* Important stuff. */
+.attachment_name:before {
+	display: block;
 	clear: both;
+	content: "";
 }
 /* Separator of posts. More useful in the print stylesheet. */
 .forumposts .post_separator {

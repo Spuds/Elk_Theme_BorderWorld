@@ -463,7 +463,7 @@ div.bbc_footnotes .meaction {
 
 #search_form.active {
 	background-color: rgb(255, 255, 255);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+	box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.25);
 	padding: 5px;
 }
 
@@ -485,13 +485,13 @@ div.bbc_footnotes .meaction {
 
 #search_form .button_submit.with_select {
 	box-shadow: 1px 1px 2px #e5e5e5, 0 -1px 0 #e4e4e4 inset;
+	margin-top: .5em;
 }
 
 #search_form select {
 	border: 1px solid #afafaf;
-	border-right: none;
 	opacity: 0.8;
-	width: 130px;
+	width: 160px;
 }
 
 #search_form select:focus {
@@ -2020,7 +2020,7 @@ div.bbc_footnotes .meaction {
 }
 
 /* Panel Tab/button */
-.tab {
+.paneltab {
 	background: #fafafa;
 	border-radius: 0;
 	padding: 0 10px;
@@ -2033,11 +2033,11 @@ div.bbc_footnotes .meaction {
 	white-space: nowrap;
 }
 
-.tab a:hover {
+.paneltab a:hover {
 	color: #222;;
 }
 
-.tab a.open, .tab a.close {
+.paneltab a.open, .paneltab a.close {
 	cursor: pointer;
 	display: block;
 	width: 100px;
