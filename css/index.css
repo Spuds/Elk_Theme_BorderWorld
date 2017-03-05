@@ -2427,7 +2427,7 @@ div.core_posts {
 	padding: 8px 0;
 	font-size: 0.857em;
 }
-.attachment_block {
+.attachment_block, .attachment {
 	display: inline-block;
 	max-width: 99%;
 	min-width: 18em;
