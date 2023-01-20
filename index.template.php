@@ -9,7 +9,7 @@
  * copyright:	2011 Simple Machines (http://www.simplemachines.org)
  * license:  	BSD, See included LICENSE.TXT for terms and conditions.
  *
- * @version 1.1.4
+ * @version 1.1.9
  *
  */
 
@@ -88,11 +88,11 @@ function template_init()
 		// How do we get anchors only, where they will work? Spans and strong only where necessary?
 		'page_index_template' => array(
 			'base_link' => '<li class="linavPages"><a class="navPages" href="{base_link}" role="menuitem">%2$s</a></li>',
-			'previous_page' => '<span class="previous_page" role="menuitem">{prev_txt}</span>',
+			'previous_page' => '<span class="previous_page">{prev_txt}</span>',
 			'current_page' => '<li class="linavPages"><strong class="current_page" role="menuitem">%1$s</strong></li>',
-			'next_page' => '<span class="next_page" role="menuitem">{next_txt}</span>',
+			'next_page' => '<span class="next_page">{next_txt}</span>',
 			'expand_pages' => '<li class="linavPages expand_pages" role="menuitem" {custom}> <a href="#">...</a> </li>',
-			'all' => '<span class="linavPages all_pages" role="menuitem">{all_txt}</span>',
+			'all' => '<span class="linavPages all_pages">{all_txt}</span>',
 		),
 
 		// @todo find a better place if we are going to create a notifications template
@@ -118,8 +118,6 @@ function call_template_callbacks($id, $array)
 		if (function_exists($func))
 			$func();
 	}
-
-	echo '<div class="clear"></div>';
 }
 
 /**
@@ -127,7 +125,7 @@ function call_template_callbacks($id, $array)
  */
 function template_html_above()
 {
-	global $context, $settings, $scripturl, $txt, $modSettings;
+	global $context, $scripturl, $txt, $modSettings;
 
 	// Show right to left and the character set for ease of translating.
 	echo '<!DOCTYPE html>
@@ -156,6 +154,13 @@ function template_html_above()
 	if (!empty($context['robot_no_index']))
 		echo '
 	<meta name="robots" content="noindex" />';
+
+	// If we have any Open Graph data, here is where is inserted.
+	if (!empty($context['open_graph']))
+	{
+		echo '
+	' .implode("\n\t", $context['open_graph']);
+	}
 
 	// load in any css from addons or themes so they can overwrite if wanted
 	template_css();
@@ -246,11 +251,7 @@ function template_body_above()
 	echo '
 	<div id="wrapper" class="wrapper">';
 
-	call_template_callbacks('th', $context['theme_header_callbacks']);
-
-	// Go to top/bottom of page links and skipnav link for a11y.
-	echo '
-	<a id="top" href="#skipnav">', $txt['skip_nav'], '</a>';
+	//call_template_callbacks('th', $context['theme_header_callbacks']);
 
 	// Show the top area, like search, login, etc
 	echo '
@@ -473,6 +474,24 @@ function template_html_below()
 	// load in any javascript that could be deferred to the end of the page
 	theme()->template_javascript(true);
 
+	// Schema microdata about the organization?
+	if (!empty($context['smd_site']))
+	{
+		echo '
+	<script type="application/ld+json">
+	', json_encode($context['smd_site'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), '
+	</script>';
+	}
+
+	// Schema microdata about the post?
+	if (!empty($context['smd_article']))
+	{
+		echo '
+	<script type="application/ld+json">
+	', json_encode($context['smd_article'], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), '
+	</script>';
+	}
+
 	// Anything special to put out?
 	if (!empty($context['insert_after_template']))
 		echo $context['insert_after_template'];
@@ -499,6 +518,7 @@ function theme_linktree($default = 'linktree')
 
 	// @todo - Look at changing markup here slightly. Need to incorporate relevant aria roles.
 	echo '
+			<nav>
 				<ul class="navigate_section">';
 
 	// Each tree item has a URL and name. Some may have extra_before and extra_after.
@@ -527,7 +547,8 @@ function theme_linktree($default = 'linktree')
 	}
 
 	echo '
-				</ul>';
+				</ul>
+			</nav>';
 }
 
 /**
@@ -650,10 +671,6 @@ function template_button_strip($button_strip, $direction = '', $strip_options = 
 	if (!is_array($strip_options))
 		$strip_options = array();
 
-	// List the buttons in reverse order for RTL languages.
-	if ($context['right_to_left'])
-		$button_strip = array_reverse($button_strip, true);
-
 	// Create the buttons... now with cleaner markup (yay!).
 	$buttons = array();
 	foreach ($button_strip as $key => $value)
@@ -751,12 +768,12 @@ function template_basicicons_legend()
 
 	echo '
 		<p class="floatleft">', !empty($modSettings['enableParticipation']) && $context['user']['is_logged'] ? '
-			<span class="topicicon img_profile"></span>' . $txt['participation_caption'] : '<span class="topicicon img_normal"> </span>' . $txt['normal_topic'], '<br />
-			' . (!empty($modSettings['pollMode']) ? '<span class="topicicon img_poll"> </span>' . $txt['poll'] : '') . '
+			<span class="icon i-profile"></span>' . $txt['participation_caption'] : '<span class="icon i-normal"> </span>' . $txt['normal_topic'], '<br />
+			' . (!empty($modSettings['pollMode']) ? '<span class="icon i-poll"> </span>' . $txt['poll'] : '') . '
 		</p>
 		<p>
-			<span class="topicicon img_locked"> </span>' . $txt['locked_topic'] . '<br />' . (!empty($modSettings['enableStickyTopics']) ? '
-			<span class="topicicon img_sticky"> </span>' . $txt['sticky_topic'] . '<br />' : '') . '
+			<span class="icon i-locked"> </span>' . $txt['locked_topic'] . '<br />' . (!empty($modSettings['enableStickyTopics']) ? '
+			<span class="icon i-sticky"> </span>' . $txt['sticky_topic'] . '<br />' : '') . '
 		</p>';
 }
 
