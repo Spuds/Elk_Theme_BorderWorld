@@ -1232,6 +1232,7 @@ a.bbc_link {
 	padding: 0.4em;
 	border: none;
 	border-radius: 0;
+	min-height: calc(100vh - 120px);
 }
 
 /* The user info, news, etc.*/
@@ -1446,7 +1447,7 @@ a.bbc_link {
 	top: 3.1em;
 	left: 0;
 	width: 100%;
-	min-width: 70em;
+	min-width: 100%;
 	margin: 0;
 	padding: 0.6em;
 	border: 0;
@@ -6058,6 +6059,10 @@ a > i {
 		height: 2em;
 	}
 
+	.listlevel1#button_profile .linklevel1 {
+		min-width: 2em;
+	}
+
 	.i-account:before {
 		width: 2.5em;
 		height: 2.5em;
@@ -6092,8 +6097,12 @@ a > i {
 		border: 1px solid;
 	}
 
-	#menu_nav, #menu_nav_1 {
+	#menu_nav {
 		height: 48px;
+	}
+
+	#menu_nav_1 {
+		height: 10px;
 	}
 
 	#main_menu .menulevel2 {
@@ -6393,6 +6402,10 @@ a > i {
 
 /* This one does 540 and smaller screens at default font size. */
 @media screen and (max-width: 33.750em) {
+	#siteslogan {
+		display: none;
+	}
+
 	select, .input_text, .input_password {
 		max-width: 12em;
 	}
@@ -6520,11 +6533,20 @@ a > i {
 
 	.topic_name h4 {
 		font-size: 1.357em;
-		display: block;
+		max-height: 3em;
+		line-clamp: 2 "...";
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	.topic_name h4 a {
-		word-wrap: break-word;
+		text-overflow: ellipsis;
+	}
+
+	.basic_row .topic_name h4 {
+		padding-right: 0;
 	}
 
 	#wrapper {
